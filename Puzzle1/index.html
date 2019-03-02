@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		Puzzle 1 - Codingmart Technologies
+	</title>
+	<script src="jquery-1.11.1.min.js"></script>
+	<style>
+		.panel{
+			height: 400px;
+			width: 600px;
+			position: relative;
+			border: 1px solid #00a;
+			overflow: hidden;
+			background-image: url('street.png');
+			background-size: cover;
+		}
+		.person img {
+			height: 90px;
+		}
+		.person{
+			display: inline-block;
+			position: absolute;
+			bottom: 0px;
+			-webkit-transition: all 0.1s ease-in-out;
+			   -moz-transition: all 0.1s ease-in-out;
+			    -ms-transition: all 0.1s ease-in-out;
+			     -o-transition: all 0.1s ease-in-out;
+			        transition: all 0.1s ease-in-out;
+		}
+		.pillar{
+			bottom: 0px;
+			position: absolute;
+			background-image: url('building.jpg');
+			background-size: 20px 20px;
+		}
+	</style>
+</head>
+<body>
+	<h1>Score : <span id="score">0</span></h1>
+	<h1>Speed : <span id="speed">0</span>X</h1>
+	<div class="panel">
+		<div class="person">
+			<img src="person.gif" alt="">
+		</div>
+	</div>
+	<script>
+		$(document).ready(function($) {
+
+			// altered section
+			var animation = 3000;
+			var score = -1;
+			var speed = -1;
+			alert("Press the Space Bar to jump over building");
+
+			function createElement(height,width) {
+
+				score = score+1;
+
+				if(score%5==0){
+					animation = animation-500;
+					speed = speed+1;
+				}
+
+				newElement = $('<span/>',{
+					class: "pillar",
+				})
+				rightSize = width + 5
+				leftSize = width + 600 +5
+				newElement.css({height: height+'px', width: width+'px',left: leftSize+'px'})
+				newElement.appendTo('.panel')
+				newElement.animate({
+					left: '-'+rightSize+'px'
+				},animation, function() {
+					newElement.remove()
+					redraw()
+				});
+			}
+			function redraw(){
+				height = Math.floor(Math.random() * (300 - 10)) + 10
+				width = Math.floor(Math.random() * (300 - 30)) + 30
+				createElement(height,width)
+			}
+			redraw()
+
+			function checkPillar(){
+				setTimeout(function() {
+					Jump()
+					checkPillar()
+				})
+			}
+			checkPillar()
+			function Jump(){
+				var per = $('.person');
+				var pil = $('.pillar');
+				var result = $('#score');
+				var fast = $('#speed');
+				$(document).on('keydown',function(e){
+					if(e.keyCode == 32){
+					per.css("bottom",(parseInt(pil.height())+3));
+					}
+				});
+				$(document).on('keyup',function(e){
+					if(e.keyCode == 32){
+					per.css("bottom","0px");
+					}
+				});
+
+				result.text(score);
+				fast.text(speed);
+
+				if(collision(per,pil)){
+					alert("game over!! Your Score is "+score);
+					per.css("bottom","0px");
+					speed=-1;
+					score=-1;
+					animation=3000;
+				}
+			}
+
+			// Added Function
+			function collision($div1, $div2) {
+        	var x1 = $div1.offset().left;
+        	var y1 = $div1.offset().top;
+        	var h1 = $div1.outerHeight(true);
+        	var w1 = $div1.outerWidth(true);
+        	var b1 = y1 + h1;
+        	var r1 = x1 + w1;
+        	var x2 = $div2.offset().left;
+        	var y2 = $div2.offset().top;
+        	var h2 = $div2.outerHeight(true);
+        	var w2 = $div2.outerWidth(true);
+        	var b2 = y2 + h2;
+        	var r2 = x2 + w2;
+
+        if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) 
+			return false;
+        return true;
+	}
+
+		});
+	</script>
+</body>
+</html>
