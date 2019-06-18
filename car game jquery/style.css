@@ -1,0 +1,45 @@
+.container{
+    background: black;
+    position: absolute;
+    height: 700px;
+    width: 500px;
+    overflow: hidden;
+}
+.car{
+    position: absolute;
+    top:540px;
+    left:200px;
+    margin:0px;
+    padding: 0px;
+}
+.line1{
+    background: gray;
+    position: absolute;
+    height: 300px;
+    width: 30px;
+    margin-left: 230px;
+}
+.line2{
+    background: gray;
+    height: 300px;
+    position: absolute;
+    top : 500px;
+    width: 30px;
+    margin-left: 230px;
+}
+.opp1{
+    position: absolute;
+    margin:0px;
+    padding: 0px;
+}
+.opp2{
+    position: absolute;
+    top:250px;
+    left : 300px;
+    margin:0px;
+    padding: 0px;
+}
+#board{
+    position: absolute;
+    left : 600px;
+}
